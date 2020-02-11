@@ -1,7 +1,7 @@
 const express = require("express");
 const server = express();
 const PostsRouter = require("./resources/posts/router");
-
+const PORT = 5001;
 server.use(express.json());
 server.use("/api/posts", PostsRouter);
 
@@ -12,6 +12,6 @@ server.get("/", (req, res) => {
   `);
 });
 
-server.listen(5001, () => {
-  console.log("** listening on port 5000 **");
+server.listen(PORT, () => {
+  console.log(`** listening on port ${PORT} **`);
 });

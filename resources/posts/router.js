@@ -48,4 +48,26 @@ router.post("/:id/comments", (req, res) => {
     .catch(rejection => res.status(400).json(rejection));
 });
 
+//Removes the post with the specified id and returns the **deleted post object**. You may need to make additional calls to the database in order to satisfy this requirement
+router.delete("/:id", (req, res) => {
+  const postId = Number(req.params.id);
+  //
+  DataBase.findById(postId).then(postObject => {
+    postObject &&
+      DataBase.remove(postId).then(
+        count =>
+          (count > 0 && res.status(200).json(postObject)) ||
+          res.status(500).json({
+            errorMessage: "one cannot delete that which does not exist"
+          })
+      );
+  });
+  //
+});
+
+//Updates the post with the specified `id` using data from the `request body`. Returns the modified document, **NOT the original**.
+router.put("/:id", (req, res) => {
+  //
+});
+
 module.exports = router;
