@@ -21,4 +21,15 @@ router.post("/", (req, res) => {
       }) && req.destroy();
 });
 
+// Returns the post object with the specified id.
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+  DataBase.findById(id)
+    .then(foundPost => res.status(200).json(foundPost))
+    .catch(rejection => {
+      console.log(rejection);
+      res.status(400).json(rejection);
+    });
+});
+
 module.exports = router;
