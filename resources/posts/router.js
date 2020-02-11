@@ -37,4 +37,14 @@ router.get("/:id/comments", (req, res) => {
     .catch(rejection => res.status(400).json(rejection));
 });
 
+// Creates a comment for the post with the specified id using information sent inside of the `request body`.
+router.post("/:id/comments", (req, res) => {
+  const { id: post_id } = req.params;
+  const payload = { ...req.body, post_id };
+
+  DataBase.insertComment(payload)
+    .then(comment => res.status(200).json(comment))
+    .catch(rejection => res.status(400).json(rejection));
+});
+
 module.exports = router;
