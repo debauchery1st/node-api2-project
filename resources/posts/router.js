@@ -26,10 +26,15 @@ router.get("/:id", (req, res) => {
   const { id } = req.params;
   DataBase.findById(id)
     .then(foundPost => res.status(200).json(foundPost))
-    .catch(rejection => {
-      console.log(rejection);
-      res.status(400).json(rejection);
-    });
+    .catch(rejection => res.status(400).json(rejection));
+});
+
+// Returns an array of all the comment objects associated with the post with the specified id.
+router.get("/:id/comments", (req, res) => {
+  const { id } = req.params;
+  DataBase.findPostComments(id)
+    .then(comments => res.status(200).json(comments))
+    .catch(rejection => res.status(400).json(rejection));
 });
 
 module.exports = router;
