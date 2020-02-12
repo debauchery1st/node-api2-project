@@ -11,11 +11,18 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const { title, contents } = req.body;
   title && contents
-    ? DataBase.insert({ title, contents }).then(created =>
-        DataBase.findById(created.id).then(newPost =>
-          res.status(201).json(newPost)
+    ? DataBase.insert({ title, contents })
+        .then(created =>
+          DataBase.findById(created.id).then(newPost =>
+            res.status(201).json(newPost)
+          )
         )
-      )
+        .catch(
+          rejected =>
+            res.status(500).json({
+              error: "There was an error while saving the post to the database"
+            }) && req.destroy()
+        )
     : res.status(400).json({
         errorMessage: "Please provide title and contents for the post."
       }) && req.destroy();
@@ -32,6 +39,7 @@ router.get("/:id", (req, res) => {
 // Returns an array of all the comment objects associated with the post with the specified id.
 router.get("/:id/comments", (req, res) => {
   const { id } = req.params;
+  console.log(req);
   DataBase.findPostComments(id)
     .then(comments => res.status(200).json(comments))
     .catch(rejection => res.status(400).json(rejection));
@@ -40,12 +48,23 @@ router.get("/:id/comments", (req, res) => {
 // Creates a comment for the post with the specified id using information sent inside of the `request body`.
 router.post("/:id/comments", (req, res) => {
   const post_id = Number(req.params.id);
-  const { text } = req.body;
-  const payload = { post_id, text };
-  console.log(payload);
-  DataBase.insertComment(payload)
-    .then(comment => res.status(200).json(comment))
-    .catch(rejection => res.status(400).json(rejection));
+  DataBase.findById(post_id)
+    .then(op => {
+      if (!op) {
+        console.log("bad find");
+      }
+      const { text } = req.body;
+      const payload = { post_id, text };
+      console.log(payload);
+      DataBase.insertComment(payload)
+        .then(comment => res.status(200).json(comment))
+        .catch(rejection => res.status(400).json(rejection));
+    })
+    .catch(rejection =>
+      res
+        .status(404)
+        .json({ message: "The post with the specified ID does not exist." })
+    );
 });
 
 //Removes the post with the specified id and returns the **deleted post object**. You may need to make additional calls to the database in order to satisfy this requirement
