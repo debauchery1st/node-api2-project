@@ -13,11 +13,11 @@ Use `Node.js` and `Express` to build an API that performs _CRUD_ operations on `
 
 ### Project Setup
 
-- import this repository into your account
-- clone **your copy** of this repository.
-- **CD into the folder** where you cloned the repository.
-- Type `npm install` to download all dependencies.
-- To start the server, type `npm run server` from the root folder (where the _package.json_ file is). The server is configured to restart automatically as you make changes.
+- ✓ import this repository into your account
+- ✓ clone **your copy** of this repository.
+- ✓ **CD into the folder** where you cloned the repository.
+- ✓ Type `npm install` to download all dependencies.
+- ✓ To start the server, type `npm run server` from the root folder (where the _package.json_ file is). The server is configured to restart automatically as you make changes.
 
 ### Database Persistence Helpers
 
@@ -73,15 +73,15 @@ A Comment in the database has the following structure:
 
 Configure the API to handle to the following routes:
 
-| Method | Endpoint                | Description                                                                                                                                                                 |
-| ------ | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| POST   | /api/posts              | Creates a post using the information sent inside the `request body`.                                                                                                        |
-| POST   | /api/posts/:id/comments | Creates a comment for the post with the specified id using information sent inside of the `request body`.                                                                   |
-| GET    | /api/posts              | Returns an array of all the post objects contained in the database.                                                                                                         |
-| GET    | /api/posts/:id          | Returns the post object with the specified id.                                                                                                                              |
-| GET    | /api/posts/:id/comments | Returns an array of all the comment objects associated with the post with the specified id.                                                                                 |
-| DELETE | /api/posts/:id          | Removes the post with the specified id and returns the **deleted post object**. You may need to make additional calls to the database in order to satisfy this requirement. |
-| PUT    | /api/posts/:id          | Updates the post with the specified `id` using data from the `request body`. Returns the modified document, **NOT the original**.                                           |
+| Method | Endpoint                | Description                                                                                                                                                                   |
+| ------ | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| POST   | /api/posts              | ✓ Creates a post using the information sent inside the `request body`.                                                                                                        |
+| POST   | /api/posts/:id/comments | ✓ Creates a comment for the post with the specified id using information sent inside of the `request body`.                                                                   |
+| GET    | /api/posts              | ✓ Returns an array of all the post objects contained in the database.                                                                                                         |
+| GET    | /api/posts/:id          | ✓ Returns the post object with the specified id.                                                                                                                              |
+| GET    | /api/posts/:id/comments | ✓ Returns an array of all the comment objects associated with the post with the specified id.                                                                                 |
+| DELETE | /api/posts/:id          | ✓ Removes the post with the specified id and returns the **deleted post object**. You may need to make additional calls to the database in order to satisfy this requirement. |
+| PUT    | /api/posts/:id          | ✓ Updates the post with the specified `id` using data from the `request body`. Returns the modified document, **NOT the original**.                                           |
 
 #### Endpoint Specifications
 
@@ -89,20 +89,20 @@ When the client makes a `POST` request to `/api/posts`:
 
 - If the request body is missing the `title` or `contents` property:
 
-  - cancel the request.
-  - respond with HTTP status code `400` (Bad Request).
-  - return the following JSON response: `{ errorMessage: "Please provide title and contents for the post." }`.
+  - ✓ cancel the request.
+  - ✓ respond with HTTP status code `400` (Bad Request).
+  - ✓ return the following JSON response: `{ errorMessage: "Please provide title and contents for the post." }`.
 
 - If the information about the _post_ is valid:
 
-  - save the new _post_ the the database.
-  - return HTTP status code `201` (Created).
-  - return the newly created _post_.
+  - ✓ save the new _post_ the the database.
+  - ✓ return HTTP status code `201` (Created).
+  - ✓ return the newly created _post_.
 
 - If there's an error while saving the _post_:
-  - cancel the request.
-  - respond with HTTP status code `500` (Server Error).
-  - return the following JSON object: `{ error: "There was an error while saving the post to the database" }`.
+  - ✓ cancel the request.
+  - ✓ respond with HTTP status code `500` (Server Error).
+  - ✓ return the following JSON object: `{ error: "There was an error while saving the post to the database" }`.
 
 When the client makes a `POST` request to `/api/posts/:id/comments`:
 
