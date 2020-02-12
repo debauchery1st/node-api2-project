@@ -52,22 +52,35 @@ router.post("/:id/comments", (req, res) => {
 router.delete("/:id", (req, res) => {
   const postId = Number(req.params.id);
   //
-  DataBase.findById(postId).then(postObject => {
-    postObject &&
-      DataBase.remove(postId).then(
-        count =>
-          (count > 0 && res.status(200).json(postObject)) ||
-          res.status(500).json({
-            errorMessage: "one cannot delete that which does not exist"
-          })
-      );
-  });
-  //
+  DataBase.findById(postId)
+    .then(postObject => {
+      postObject &&
+        DataBase.remove(postId)
+          .then(
+            count =>
+              (count > 0 && res.status(200).json(postObject)) ||
+              res.status(500).json({
+                errorMessage: "one cannot delete that which does not exist"
+              })
+          )
+          .catch(rejection =>
+            res.status(500).json({ errorMessage: rejection })
+          );
+    })
+    .catch(rejection =>
+      res.status(500).json({ errorMessage: `error finding ${rejection}` })
+    );
 });
 
-//Updates the post with the specified `id` using data from the `request body`. Returns the modified document, **NOT the original**.
+// Updates the post with the specified `id` using data from the `request body`. Returns the modified document, **NOT the original**.
 router.put("/:id", (req, res) => {
-  //
+  DataBase.update(Number(req.params.id), req.body)
+    .then(foo =>
+      DataBase.findById(req.params.id)
+        .then(foundPost => res.status(200).json(foundPost))
+        .catch(rejection => res.status(400).json(rejection))
+    )
+    .catch(rejection => res.status(500).json({ errorMessage: rejection }));
 });
 
 module.exports = router;
