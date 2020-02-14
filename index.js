@@ -1,8 +1,14 @@
+require("dotenv").config();
 const express = require("express");
+const helmet = require("helmet");
 const server = express();
 const PostsRouter = require("./resources/posts/router");
-const PORT = 5001;
+
+const port = process.env.PORT;
+
 server.use(express.json());
+
+server.use(helmet());
 
 server.use("/api/posts", PostsRouter);
 
@@ -13,6 +19,6 @@ server.get("/", (req, res) => {
   `);
 });
 
-server.listen(PORT, () => {
-  console.log(`** listening on port ${PORT} **`);
+server.listen(port, () => {
+  console.log(`** listening on port ${port} **`);
 });
